@@ -1,0 +1,22 @@
+{
+    "id": "Unit",
+    "resourceType": "ConceptMap",
+    "version": "v0.1",
+    "status": "active",
+    "group": [
+      {
+        "element": unit.{
+          "code": unit,
+          "target": [
+            {
+              "code": UCUM_code,
+              "display": UCUM_display,
+              "equivalence": UCUM_equivalence
+            }
+          ]
+        },
+        "source": "GameBusUnit",
+        "target": "http://unitsofmeasure.org"
+      }
+    ]
+}

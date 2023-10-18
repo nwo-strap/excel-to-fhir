@@ -1,0 +1,26 @@
+{
+  "id": "Activity2Resource",
+  "resourceType": "ConceptMap",
+  "version": "v0.1",
+  "status": "active",
+  "group": [
+    {
+      "element": descriptor.{
+        "code": game_descriptor,
+        "target": [
+          {
+            "code": FHIR_resource,
+            "equivalence": "equivalent"
+          }
+        ]
+      },
+    "unmapped": {
+        "mode": "fixed",
+        "code": "unknown",
+        "display": "Unknown"
+      },
+      "source": "GameBusGameDescriptor",
+      "target": "https://www.hl7.org/fhir/resourcelist.html"
+    }
+  ]
+}

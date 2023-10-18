@@ -1,0 +1,27 @@
+{
+  "id": "ObservationCategory",
+  "resourceType": "ConceptMap",
+  "version": "v0.1",
+  "status": "active",
+  "group": [
+    {
+      "element": descriptor.{
+        "code": game_descriptor,
+        "display": type,
+        "target": [
+          {
+            "code": observation_category_code,
+            "equivalence": "equivalent"
+          }
+        ]
+      },
+     "unmapped": {
+        "mode": "fixed",
+        "code": "unknown",
+        "display": "Unknown"
+      },
+      "source": "GameBusGameDescriptor",
+      "target": "http://terminology.hl7.org/CodeSystem/observation-category"
+    }
+  ]
+}

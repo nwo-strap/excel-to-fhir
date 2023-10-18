@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "transform": "deno run --allow-read --allow-write excel-to-fhir.ts -f ./gamebus.xlsx -s unit property descriptor",
+    "dev": "deno run --watch=gamebus.xlsx --allow-read --allow-write excel-to-fhir.ts -f ./gamebus.xlsx -s unit property descriptor"
+  }
+}

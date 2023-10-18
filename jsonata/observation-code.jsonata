@@ -1,0 +1,48 @@
+{
+  "id": "ObservationCode",
+  "resourceType": "ConceptMap",
+  "version": "v0.1",
+  "status": "active",
+  "group": [
+    {
+      "element": descriptor.{
+        "code": game_descriptor,
+        "display": game_descriptor,
+        "target": [
+          {
+            "code": LOINC_code,
+            "display": LOINC_display,
+            "equivalence": LOINC_equivalence
+          }
+        ]
+      },
+     "unmapped": {
+        "mode": "fixed",
+        "code": "unknown",
+        "display": "Unknown"
+      },
+      "source": "GameBusGameDescriptor",
+      "target": "http://loinc.org"
+    },
+        {
+      "element": descriptor.{
+        "code": game_descriptor,
+        "display": game_descriptor,
+        "target": [
+          {
+            "code": SNOMED_code,
+            "display": SNOMED_display,
+            "equivalence": SNOMED_equivalence
+          }
+        ]
+      },
+     "unmapped": {
+        "mode": "fixed",
+        "code": "unknown",
+        "display": "Unknown"
+      },
+      "source": "GameBusGameDescriptor",
+      "target": "https://www.snomed.org/"
+    }
+  ]
+}
