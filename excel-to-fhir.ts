@@ -69,7 +69,7 @@ export function convertSheetsToJSON(
 export async function convertJSONToFHIR(
   data: Record<string, object[]>,
   jsonataExpression: string,
-): Promise<object[]> {
+): Promise<any> {
   const expression = jsonata(jsonataExpression);
   const transformedData = await expression.evaluate(data);
   return transformedData;
@@ -115,6 +115,14 @@ async function main() {
   const filePath = options.file;
   const sheetNames = options.sheets;
   const jsonataPaths = options.jsonata;
+
+  // check if sheet names and jsonata paths are provided
+  if (sheetNames === true || sheetNames.length === 0) {
+    throw new Error("Must provide at least one sheet name for `--sheets`.");
+  }
+  if (jsonataPaths === true || jsonataPaths.length === 0) {
+    throw new Error("Must provide at least one jsonata path for `--jsonata`.");
+  }
 
   // create output directory
   const outputDirName = "output";
