@@ -5,7 +5,7 @@
  *
  * ```shell
  * > # run conversion
- * > deno run --allow-read --allow-write XXX/excel-to-fhir.ts -f example-excel.xlsx -s sheetname1 sheetname2
+ * > deno run --allow-read --allow-write XXX/excel-to-fhir.ts -f example-excel.xlsx -s sheetname1 sheetname2 -j mapping1.jsonata mapping2.jsonata
  * > # show help
  * > deno run --allow-read --allow-write XXX/excel-to-fhir.ts -h
  * ```
@@ -16,7 +16,7 @@
  * > # install
  * > deno install --allow-read --allow-write XXX/excel-to-fhir.ts
  * > # run conversion
- * > excel-to-fhir -f example-excel.xlsx -s sheetname1 sheetname2
+ * > excel-to-fhir -f example-excel.xlsx -s sheetname1 sheetname2 -j mapping1.jsonata mapping2.jsonata
  * > # show help
  * > excel-to-fhir --help
  * ```
@@ -27,7 +27,7 @@
 import jsonata from "npm:jsonata@2.0.3";
 import * as XLSX from "https://cdn.sheetjs.com/xlsx-0.20.0/package/xlsx.mjs";
 import { ensureDir } from "https://deno.land/std@0.203.0/fs/mod.ts";
-import { join } from "https://deno.land/std@0.203.0/path/mod.ts";
+import { join, parse } from "https://deno.land/std@0.203.0/path/mod.ts";
 import { Command } from "https://deno.land/x/cliffy@v1.0.0-rc.3/command/mod.ts";
 
 /**
@@ -82,46 +82,59 @@ async function main() {
     .version(VERSION)
     .description("Transform Excel spreadsheet to FHIR resournces")
     .option("-f, --file <file:string>", "EXCEL file path.", { required: true })
-    .option("-s, --sheets <sheetNames...:string>", "List of sheet names.", {
-      required: true,
-    })
+    .option(
+      "-s, --sheets [sheetNames...:string]",
+      "List of sheet names. Must provide at least one name.",
+      {
+        depends: ["file"],
+        required: true,
+      },
+    )
+    .option(
+      "-j, --jsonata [jsonata...:string]",
+      "List of paths to JSONata expression files. Must provide at least one path.",
+      {
+        depends: ["sheets"],
+        required: true,
+      },
+    )
     .example(
-      "Example",
-      "excel-to-fhir -f gamebus.xlsx -s unit property descriptor",
+      "One sheet one jsonata",
+      "excel-to-fhir -f gamebus.xlsx -s descriptor -j descriptor-to-fhirResourceType.jsonata",
+    )
+    .example(
+      "Multiple jsonata",
+      "excel-to-fhir -f gamebus.xlsx -s descriptor -j descriptor-to-fhirResourceType.jsonata descriptor-to-observationCategory.jsonata",
+    )
+    .example(
+      "Multiple sheets",
+      "excel-to-fhir -f gamebus.xlsx -s descriptor unit -j descriptor-to-fhirResourceType.jsonata unit-to-ucumUnit.jsonata",
     )
     .parse(Deno.args);
 
   const filePath = options.file;
   const sheetNames = options.sheets;
+  const jsonataPaths = options.jsonata;
 
   // create output directory
   const outputDirName = "output";
   ensureDir(outputDirName);
   console.log("Set up output directory to 'output'");
 
-  // set up mappings from output file name to JSONata expression
-  const mappings: Record<string, string> = {
-    "Activity2Resource": "./jsonata/activity-to-resource.jsonata",
-    "ObservationCategory": "./jsonata/observation-category.jsonata",
-    "ObservationCode": "./jsonata/observation-code.jsonata",
-    "ObservationComponent": "./jsonata/observation-component-code.jsonata",
-    "Unit": "./jsonata/unit.jsonata",
-  };
-
   // convert the spreadsheet to JSON
   const data = convertSheetsToJSON(filePath, sheetNames);
 
   // convert the JSON data to FHIR resources
-  for (const [key, value] of Object.entries(mappings)) {
-    const jsonataExpression = await Deno.readTextFile(value);
+  for (const item of jsonataPaths) {
+    const jsonataExpression = await Deno.readTextFile(item);
     const fhirData = await convertJSONToFHIR(data, jsonataExpression);
 
+    const fileName = parse(item).name;
     await Deno.writeTextFile(
-      join(outputDirName, `${key}.harmonization.json`),
-      //   `${outputDirName}/${key}.harmonization.json`,
+      join(outputDirName, `${fileName}.harmonization.json`),
       JSON.stringify(fhirData, null, 2),
     );
-    console.log(`Wrote ${key}.harmonization.json`);
+    console.log(`Wrote ${fileName}.harmonization.json`);
   }
 
   console.log("Transformation done!");

@@ -29,7 +29,7 @@ using the command: `deno upgrade`.
 
 ```shell
 > # run conversion
-> deno run --allow-read --allow-write XXX/excel-to-fhir.ts -f example-excel.xlsx -s sheetname1 sheetname2
+> deno run --allow-read --allow-write XXX/excel-to-fhir.ts -f example-excel.xlsx -s sheetname1 sheetname2 -j mapping1.jsonata mapping2.jsonata
 >
 > # show help
 > deno run --allow-read --allow-write XXX/excel-to-fhir.ts -h
@@ -44,7 +44,7 @@ If you want to install the module as CLI tool and run:
 > deno install --allow-read --allow-write XXX/excel-to-fhir.ts
 >
 > # run conversion
-> excel-to-fhir -f example-excel.xlsx -s sheetname1 sheetname2
+> excel-to-fhir -f example-excel.xlsx -s sheetname1 sheetname2 -j mapping1.jsonata mapping2.jsonata
 >
 > # show help
 > excel-to-fhir --help
