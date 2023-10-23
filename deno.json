@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "transform": "deno run --allow-read --allow-write excel-to-fhir.ts -f ./gamebus.xlsx -s unit property descriptor",
-    "dev": "deno run --watch=gamebus.xlsx --allow-read --allow-write excel-to-fhir.ts -f ./gamebus.xlsx -s unit property descriptor"
+    "transform": "deno run --allow-read --allow-write excel-to-fhir.ts -f ./gamebus.xlsx -s unit property descriptor -j jsonata/descriptor-to-fhirResourceType.jsonata jsonata/descriptor-to-observationCategory.jsonata jsonata/descriptor-to-observationCode.jsonata  jsonata/property-to-observationComponentCode.jsonata jsonata/unit-to-ucumUnit.jsonata",
+    "dev": "deno run --watch=gamebus.xlsx --allow-read --allow-write excel-to-fhir.ts -f ./gamebus.xlsx -s unit property descriptor -j jsonata/descriptor-to-fhirResourceType.jsonata jsonata/descriptor-to-observationCategory.jsonata jsonata/descriptor-to-observationCode.jsonata  jsonata/property-to-observationComponentCode.jsonata jsonata/unit-to-ucumUnit.jsonata"
   }
 }
