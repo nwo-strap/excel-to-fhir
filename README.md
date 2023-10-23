@@ -29,19 +29,10 @@ using the command: `deno upgrade`.
 
 ```shell
 # run conversion
-deno run --allow-read --allow-write XXX/excel-to-fhir.ts -f example-excel.xlsx -s sheetname1 sheetname2 -j mapping1.jsonata mapping2.jsonata
+deno run --allow-read --allow-write https://raw.githubusercontent.com/nwo-strap/excel-to-fhir/main/excel-to-fhir.ts -f example-excel.xlsx -s sheetname1 sheetname2 -j mapping1.jsonata mapping2.jsonata
 
 # show help
-deno run --allow-read --allow-write XXX/excel-to-fhir.ts -h
-```
-#### Use Deno tasks
-
-You can define [Deno tasks](https://docs.deno.com/runtime/manual/tools/task_runner) in the [deno.json](deno.json) file with specific inputs and options.
-
-In the file you can find the task `transform`, which is defined to convert [gamebus.xlsx](gamebus.xlsx) file to FHIR resources with all valid sheets (with all corresponding jsonata files). You can run the conversion with the following command:
-
-```shell
-deno task transform
+deno run --allow-read --allow-write https://raw.githubusercontent.com/nwo-strap/excel-to-fhir/main/excel-to-fhir.ts -h
 ```
 
 ### Run the typescript package as a command line tool
@@ -50,7 +41,7 @@ If you want to install the package as CLI tool and run:
 
 ```shell
 # install
-deno install --allow-read --allow-write XXX/excel-to-fhir.ts
+deno install --allow-read --allow-write https://raw.githubusercontent.com/nwo-strap/excel-to-fhir/main/excel-to-fhir.ts
 
 # run conversion
 excel-to-fhir -f example-excel.xlsx -s sheetname1 sheetname2 -j mapping1.jsonata mapping2.jsonata
@@ -59,8 +50,27 @@ excel-to-fhir -f example-excel.xlsx -s sheetname1 sheetname2 -j mapping1.jsonata
 excel-to-fhir --help
 ```
 
-## Development
+### Use Deno tasks in repo
 
+You can define
+[Deno tasks](https://docs.deno.com/runtime/manual/tools/task_runner) in the
+[deno.json](deno.json) file with specific inputs and options.
+
+In the file you can find the task `transform`, which is defined to convert
+[gamebus.xlsx](gamebus.xlsx) file to FHIR resources with all valid sheets (with
+all corresponding jsonata files). You can run the conversion with the following
+command:
+
+```shell
+# clone the repo
+git clone https://github.com/nwo-strap/excel-to-fhir.git
+cd excel-to-fhir
+
+# run the task
+deno task transform
+```
+
+## Development
 
 To run unit tests, use the following command:
 
@@ -68,7 +78,8 @@ To run unit tests, use the following command:
 deno test --allow-read --allow-write
 ```
 
-To watch file changes and check output during development, use the following command:
+To watch file changes and check output during development, use the following
+command:
 
 ```shell
 deno task dev
