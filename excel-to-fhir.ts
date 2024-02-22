@@ -21,6 +21,9 @@
  * > excel-to-fhir --help
  * ```
  *
+ * The tranformed FHIR files will be put to the `output` folder. The filename of output FHIR files is "{id}.harmonization.json", where the value of id is
+ * taken from the input JSONata file. If id is not found in JSONata file, then the input filename will be used as the id.
+ *
  * @module
  */
 
@@ -137,7 +140,8 @@ async function main() {
     const jsonataExpression = await Deno.readTextFile(item);
     const fhirData = await convertJSONToFHIR(data, jsonataExpression);
 
-    const fileName = parse(item).name;
+    const match = jsonataExpression.match(/"id": "([^"]+)"/);
+    const fileName = match ? match[1] : parse(item).name;
     await Deno.writeTextFile(
       join(outputDirName, `${fileName}.harmonization.json`),
       JSON.stringify(fhirData, null, 2),
