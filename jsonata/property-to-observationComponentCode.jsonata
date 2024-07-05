@@ -10,7 +10,7 @@
         "display": game_property,
         "target": [
           {
-            "code": LOINC_code,
+            "code": $string(LOINC_code),
             "display": LOINC_display,
             "equivalence": LOINC_equivalence
           }
@@ -30,7 +30,7 @@
         "display": game_property,
         "target": [
           {
-            "code": SNOMED_code,
+            "code": $string(SNOMED_code),
             "display": SNOMED_display,
             "equivalence": SNOMED_equivalence
           }
