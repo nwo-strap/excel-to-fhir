@@ -14,10 +14,10 @@ Deno.test("convertSheetsToJSON test valid sheets", () => {
     property: [
       {
         game_property: "STEPS",
-        LOINC_code: "L001",
+        LOINC_code: 100,
         LOINC_display: "Steps_L",
         LOINC_equivalence: "equivalent",
-        SNOMED_code: "S001",
+        SNOMED_code: 100,
         SNOMED_display: "Steps_S",
         SNOMED_equivalence: "equivalent",
       },
